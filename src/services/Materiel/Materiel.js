@@ -41,8 +41,8 @@ class Materiel extends PureComponent {
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
           {
-            materielList.map((n, i) => (
-              <MaterielItem key={i} data={n} />
+            materielList.map(n => (
+              <MaterielItem key={n.get('id')} data={n} />
             ))
           }
         </TableBody>

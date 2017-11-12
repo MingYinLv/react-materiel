@@ -9,7 +9,7 @@ import { loadList } from '../services/Materiel/materielService';
 export default {
   namespace: 'materiel',
   state: fromJS({
-    materielList: [{}, {}, {}],
+    materielList: [],
   }),
   reducers: {
     loadListed: (state, action) => {
@@ -19,7 +19,7 @@ export default {
   effects: {
     *loadList({ page }, { call, put }) {
       const data = yield call(loadList, { page });
-      yield put({ type: 'loadListed', data: data.data });
+      yield put({ type: 'loadListed', data: fromJS(data.data) });
     },
   },
 };
