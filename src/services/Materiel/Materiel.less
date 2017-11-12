@@ -1,0 +1,38 @@
+@import "../../styles/_variable";
+
+.container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
+  transition: transform 400ms;
+  transform-origin: center 200px;
+}
+
+.listContainer {
+  width: @min-width;
+  margin: 0 auto;
+}
+
+.listTable {
+
+}
+
+.scale {
+  transform: scale(0.8);
+  animation: scaleAni 2s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+}
+
+@keyframes scaleAni {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(0.82);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}

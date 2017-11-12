@@ -12,6 +12,7 @@ import ActionHome from 'material-ui/svg-icons/action/home';
 import AppBar from 'material-ui/AppBar';
 import classes from './MainLayout.less';
 import Materiel from '../services/Materiel';
+import Search from '../services/Search';
 
 export default () => {
   return (
@@ -26,6 +27,10 @@ export default () => {
         />
         <Route
           component={Materiel}
+        />
+        <Route
+          path="/search"
+          component={Search}
         />
       </div>
     </MuiThemeProvider>
