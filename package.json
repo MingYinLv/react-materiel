@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "babel-runtime": "^6.9.2",
+    "classname": "^0.0.0",
     "dva": "^2.0.4",
+    "dva-loading": "^1.0.3",
+    "immutable": "^3.8.2",
     "keymaster": "^1.6.2",
     "material-ui": "^0.19.4",
     "react": "^15.4.0",

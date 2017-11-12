@@ -1447,6 +1447,10 @@ class-utils@^0.3.5:
     lazy-cache "^2.0.2"
     static-extend "^0.1.1"
 
+classname@^0.0.0:
+  version "0.0.0"
+  resolved "http://registry.npm.taobao.org/classname/download/classname-0.0.0.tgz#43d171b484e354c7a293a5b78004df6852db20d6"
+
 clean-css@4.1.x:
   version "4.1.9"
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.9.tgz#35cee8ae7687a49b98034f70de00c4edd3826301"
@@ -2154,6 +2158,12 @@ dva-core@^1.1.0:
     redux "^3.7.1"
     redux-saga "^0.15.4"
     warning "^3.0.0"
+
+dva-loading@^1.0.3:
+  version "1.0.3"
+  resolved "http://registry.npm.taobao.org/dva-loading/download/dva-loading-1.0.3.tgz#effa94496fb4f3a3af1e159410f0edc55acf9de8"
+  dependencies:
+    babel-runtime "^6.26.0"
 
 dva@^2.0.4:
   version "2.0.4"
@@ -3367,6 +3377,10 @@ ignore@^3.2.0:
 image-size@^0.5.1, image-size@~0.5.0:
   version "0.5.5"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.5.5.tgz#09dfd4ab9d20e29eb1c3e80b8990378df9e3cb9c"
+
+immutable@^3.8.2:
+  version "3.8.2"
+  resolved "http://registry.npm.taobao.org/immutable/download/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
 import-local@^0.1.1:
   version "0.1.1"

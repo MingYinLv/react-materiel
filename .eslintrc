@@ -28,5 +28,14 @@
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     }
+  },
+  "globals": {
+    "__DEV__"      : false,
+    "__PROD__"     : false,
+    "__TEST__"     : false,
+    "__COVERAGE__" : false,
+    "document"     : true,
+    "navigator"    : true,
+    "window"       : true,
   }
 }

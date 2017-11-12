@@ -3,27 +3,31 @@
  */
 
 import React from 'react';
-import { Route, Link } from 'dva/router';
-import Button from 'material-ui/RaisedButton';
+import { Route } from 'dva/router';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import Index from '../routes/index/Index';
+import IconButton from 'material-ui/IconButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import AppBar from 'material-ui/AppBar';
+import classes from './MainLayout.less';
+import Materiel from '../services/Materiel';
 
 export default () => {
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <div>
-        LayoutM<br/>
-        <Link to="/test">
-          <Button>Test</Button>
-        </Link>
+      <div className={classes.container}>
+        <AppBar
+          title="物料管理系统"
+          titleStyle={{
+            fontSize: '20px',
+          }}
+          iconElementLeft={<IconButton><ActionHome /></IconButton>}
+        />
         <Route
-          path="/test"
-          exact
-          component={Index}
+          component={Materiel}
         />
       </div>
     </MuiThemeProvider>
-  )
-}
+  );
+};
