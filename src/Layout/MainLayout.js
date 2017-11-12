@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Route } from 'dva/router';
+import { Route, Link } from 'dva/router';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -25,6 +25,9 @@ export default () => {
           }}
           iconElementLeft={<IconButton><ActionHome /></IconButton>}
         />
+        <div className={classes.search}>
+          <Link to="/search"><input /></Link>
+        </div>
         <Route
           component={Materiel}
         />

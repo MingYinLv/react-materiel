@@ -12,6 +12,7 @@ import {
 } from 'material-ui/Table';
 import { connect } from 'dva';
 import className from 'classname';
+import key from 'keymaster';
 import MaterielItem from './MaterielItem';
 import classes from './Materiel.less';
 
@@ -20,6 +21,8 @@ class Materiel extends PureComponent {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
     materielList: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -27,12 +30,22 @@ class Materiel extends PureComponent {
       type: 'materiel/loadList',
       page: 1,
     });
+    key('esc', () => {
+      this.props.history.push('/');
+    });
+    key('s', () => {
+      this.props.history.push('/search');
+    });
   }
 
   render() {
-    const { materielList } = this.props;
+    const { materielList, location } = this.props;
     return (
-      <div className={className(classes.container, classes.scale)}>
+      <div
+        className={className(classes.container, {
+          [classes.scale]: location.pathname !== '/',
+        })}
+      >
         <div className={classes.listContainer}>
           <Table>
             <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
