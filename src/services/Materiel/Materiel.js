@@ -40,7 +40,9 @@ class Materiel extends PureComponent {
       key(keyboard, () => {
         const { history, location } = this.props;
         if (location.pathname !== pathname) {
-          history.replace(pathname);
+          setTimeout(() => {
+            history.replace(pathname);
+          }, 0);
         }
       });
     });

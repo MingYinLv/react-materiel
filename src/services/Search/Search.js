@@ -24,10 +24,6 @@ class Search extends PureComponent {
     this.props.history.replace('/');
   };
 
-  inputRef = (ref) => {
-    console.log(ref);
-  };
-
   render() {
     return (
       <div className={classNames(classes.container)}>
@@ -46,7 +42,6 @@ class Search extends PureComponent {
             onKeyDown={this.onKeyDown}
             hintText="搜索"
             autoFocus
-            ref={this.inputRef}
             hintStyle={{
               textAlign: 'center',
               left: 0,
