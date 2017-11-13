@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import { Route, Link } from 'dva/router';
+import { Link, Route } from 'dva/router';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -14,7 +15,7 @@ import classes from './MainLayout.less';
 import Materiel from '../services/Materiel';
 import Search from '../services/Search';
 
-export default () => {
+export default ({ location }) => {
   return (
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
       <div className={classes.container}>
@@ -31,10 +32,18 @@ export default () => {
         <Route
           component={Materiel}
         />
-        <Route
-          path="/search"
-          component={Search}
-        />
+        <CSSTransitionGroup
+          transitionName="search-show"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          <Route
+            location={location}
+            key={location.key}
+            path="/search"
+            component={Search}
+          />
+        </CSSTransitionGroup>
       </div>
     </MuiThemeProvider>
   );

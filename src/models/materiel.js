@@ -12,14 +12,19 @@ export default {
     materielList: [],
   }),
   reducers: {
-    loadListed: (state, action) => {
-      return state.set('materielList', action.data);
+    save: (state, action) => {
+      return state.merge(action.payload);
     },
   },
   effects: {
     *loadList({ page }, { call, put }) {
       const data = yield call(loadList, { page });
-      yield put({ type: 'loadListed', data: fromJS(data.data) });
+      yield put({
+        type: 'save',
+        payload: {
+          materielList: fromJS(data.data),
+        },
+      });
     },
   },
 };

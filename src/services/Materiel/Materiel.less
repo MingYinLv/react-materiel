@@ -1,13 +1,17 @@
 @import "../../styles/_variable";
 
 .container {
-  position: relative;
+  position: absolute;
   width: 100%;
-  height: 100%;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, .5);
-  transition: transform 1s;
-  transform-origin: center 200px;
-  transform: scale(1);
+  bottom: 0;
+  top: 132px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, .5);
+  transition: transform 800ms cubic-bezier(0.175, 0.885, 0.335, 1.05);
+  transition-timing-function: ease-in-out;
+  transform-origin: center top;
+  transform: scale3d(1, 1, 1);
+  overflow: hidden;
+
 }
 
 .listContainer {
@@ -20,21 +24,25 @@
 }
 
 .scale {
-  transform: scale(0.8);
-  animation: scaleAni 2s;
-  animation-delay: 1s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+  transform: scale3d(0.85, 0.85, 1);
+  //animation: scaleIn 2s;
+  //animation-delay: 800ms;
+  //animation-timing-function: ease-in;
+  //animation-iteration-count: 1;
+  //animation-play-state: running;
 }
 
-@keyframes scaleAni {
+@keyframes scaleIn {
   0% {
-    transform: scale(0.8);
+    transform: scale3d(0.85, 0.85, 1);
+
   }
   50% {
-    transform: scale(0.83);
+    transform: scale3d(0.87, 0.87, 1);
+
   }
   100% {
-    transform: scale(0.8);
+    transform: scale3d(0.85, 0.85, 1);
+
   }
 }

@@ -30,11 +30,19 @@ class Materiel extends PureComponent {
       type: 'materiel/loadList',
       page: 1,
     });
-    key('esc', () => {
-      this.props.history.push('/');
-    });
-    key('s', () => {
-      this.props.history.push('/search');
+    [{
+      keyboard: 'esc',
+      pathname: '/',
+    }, {
+      keyboard: 's',
+      pathname: '/search',
+    }].forEach(({ keyboard, pathname }) => {
+      key(keyboard, () => {
+        const { history, location } = this.props;
+        if (location.pathname !== pathname) {
+          history.replace(pathname);
+        }
+      });
     });
   }
 

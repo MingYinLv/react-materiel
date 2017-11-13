@@ -4,6 +4,9 @@
 
 import React, { PureComponent, PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
+import IconButton from 'material-ui/IconButton';
+import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import classNames from 'classname';
 import classes from './Search.less';
 
 class Search extends PureComponent {
@@ -12,15 +15,25 @@ class Search extends PureComponent {
   };
 
   onKeyDown = (e) => {
-    console.log(e.key);
-    if (e.key === 'esc') {
-      this.props.history.push('/');
+    if (e.key === 'Escape') {
+      this.back();
     }
+  };
+
+  back = () => {
+    this.props.history.replace('/');
   };
 
   render() {
     return (
-      <div className={classes.container}>
+      <div className={classNames(classes.container)}>
+        <div className={classes.closeWrap}>
+          <IconButton onClick={this.back}>
+            <NavigationClose
+              color="#666"
+            />
+          </IconButton>
+        </div>
         <div className={classes.main}>
           <TextField
             onKeyDown={this.onKeyDown}
