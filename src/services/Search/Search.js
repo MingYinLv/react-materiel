@@ -24,6 +24,10 @@ class Search extends PureComponent {
     this.props.history.replace('/');
   };
 
+  inputRef = (ref) => {
+    console.log(ref);
+  };
+
   render() {
     return (
       <div className={classNames(classes.container)}>
@@ -31,6 +35,9 @@ class Search extends PureComponent {
           <IconButton onClick={this.back}>
             <NavigationClose
               color="#666"
+              style={{
+                fontSize: '30px',
+              }}
             />
           </IconButton>
         </div>
@@ -38,6 +45,8 @@ class Search extends PureComponent {
           <TextField
             onKeyDown={this.onKeyDown}
             hintText="搜索"
+            autoFocus
+            ref={this.inputRef}
             hintStyle={{
               textAlign: 'center',
               left: 0,
