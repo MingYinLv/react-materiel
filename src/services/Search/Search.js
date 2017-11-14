@@ -2,16 +2,42 @@
  * Created by MingYin Lv on 2017/11/12 下午6:04.
  */
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'dva';
 import TextField from 'material-ui/TextField';
+import debounce from 'lodash/debounce';
+import className from 'classname';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import classNames from 'classname';
 import classes from './Search.less';
+import Spinner from '../../components/Spinner';
+import MaterielList from '../Materiel/MaterielList';
 
 class Search extends PureComponent {
   static propTypes = {
     history: PropTypes.object.isRequired,
+    searchLoading: PropTypes.bool,
+    searchList: PropTypes.object.isRequired,
+    searched: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    keyword: PropTypes.string.isRequired,
+  };
+
+  constructor(props) {
+    super(props);
+    this.search = debounce(this.search, 1000);
+    this.state = {
+      data: [],
+      search: props.keyword,
+    };
+  }
+
+  onChange = (e) => {
+    this.setState({
+      search: e.target.value,
+    });
+    this.search();
   };
 
   onKeyDown = (e) => {
@@ -20,13 +46,29 @@ class Search extends PureComponent {
     }
   };
 
+  search = () => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'materiel/searchList',
+      page: 1,
+      keyword: this.state.search,
+    });
+  };
+
   back = () => {
     this.props.history.replace('/');
   };
 
   render() {
+    const { searchLoading, searchList, searched } = this.props;
+    const { search } = this.state;
+    const isSearch = !!(searchLoading || searched || searchList.size);
     return (
-      <div className={classNames(classes.container)}>
+      <div
+        className={className(classes.container, {
+          [classes.search]: isSearch,
+        })}
+      >
         <div className={classes.closeWrap}>
           <IconButton onClick={this.back}>
             <NavigationClose
@@ -35,13 +77,16 @@ class Search extends PureComponent {
                 fontSize: '30px',
               }}
             />
-          </IconButton>
+          </IconButton><br />
+          [ Esc ]
         </div>
         <div className={classes.main}>
           <TextField
             onKeyDown={this.onKeyDown}
             hintText="搜索"
             autoFocus
+            value={search}
+            onChange={this.onChange}
             hintStyle={{
               textAlign: 'center',
               left: 0,
@@ -51,10 +96,25 @@ class Search extends PureComponent {
               textAlign: 'center',
             }}
           />
+          {
+            isSearch && (
+              <div className={classes.result}>
+                {searchLoading && <Spinner />}
+                {searched && !searchLoading && (
+                  <MaterielList materielList={searchList} />
+                )}
+              </div>
+            )
+          }
         </div>
       </div>
     );
   }
 }
 
-export default Search;
+export default connect(state => ({
+  searchList: state.materiel.get('searchList'),
+  searched: state.materiel.get('searched'),
+  keyword: state.materiel.get('keyword'),
+  searchLoading: state.loading.effects['materiel/searchList'],
+}))(Search);
