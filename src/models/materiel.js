@@ -10,6 +10,9 @@ export default {
   namespace: 'materiel',
   state: fromJS({
     materielList: [],
+    searchList: [],
+    searched: false,
+    keyword: '',
   }),
   reducers: {
     save: (state, action) => {
@@ -25,6 +28,28 @@ export default {
           materielList: fromJS(data.data),
         },
       });
+    },
+    *searchList({ page, keyword }, { call, put }) {
+      if (keyword) {
+        const data = yield call(loadList, { page, keyword });
+        yield put({
+          type: 'save',
+          payload: {
+            searchList: fromJS(data.data || []),
+            searched: true,
+            keyword,
+          },
+        });
+      } else {
+        yield put({
+          type: 'save',
+          payload: {
+            searchList: fromJS([]),
+            searched: false,
+            keyword,
+          },
+        });
+      }
     },
   },
 };

@@ -14,9 +14,31 @@
 
 }
 
-.listContainer {
+.box {
   width: @min-width;
   margin: 0 auto;
+}
+
+.listContainer {
+
+}
+
+.row {
+  background: #fff;
+  animation: rowIn 1s;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+@keyframes rowIn {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .listTable {

@@ -2,19 +2,13 @@
  * Created by MingYin Lv on 2017/11/12 下午3:48.
  */
 
-import React, { PropTypes, PureComponent } from 'react';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-} from 'material-ui/Table';
+import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import className from 'classname';
 import key from 'keymaster';
-import MaterielItem from './MaterielItem';
 import classes from './Materiel.less';
+import MaterielList from './MaterielList';
 
 class Materiel extends PureComponent {
 
@@ -56,24 +50,8 @@ class Materiel extends PureComponent {
           [classes.scale]: location.pathname !== '/',
         })}
       >
-        <div className={classes.listContainer}>
-          <Table>
-            <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-              <TableRow>
-                <TableHeaderColumn>ID</TableHeaderColumn>
-                <TableHeaderColumn>名称</TableHeaderColumn>
-                <TableHeaderColumn>数量</TableHeaderColumn>
-                <TableHeaderColumn>描述</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {
-                materielList.map(n => (
-                  <MaterielItem key={n.get('id')} data={n} />
-                ))
-              }
-            </TableBody>
-          </Table>
+        <div className={classes.box}>
+          <MaterielList materielList={materielList} />
         </div>
       </div>
     );

@@ -4,6 +4,6 @@
 
 import request from '../../utils/request';
 
-export const loadList = ({ page }) => {
-  return request(`/materiels?size=10&order=desc&sortby=id&page=${page}`);
+export const loadList = ({ page = 1, keyword = '', size = 10, sortby = 'id', order = 'desc' }) => {
+  return request(`/materiels?keyword=${keyword}&size=${size}&order=${order}&sortby=${sortby}&page=${page}`);
 };
