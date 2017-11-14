@@ -1,5 +1,6 @@
 import fetch from 'dva/fetch';
 import { show } from '../components/Login';
+import config from './config';
 
 function parseJSON(response) {
   return response.json();
@@ -25,7 +26,7 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  return fetch(`//localhost:3333/v1${url}`, options)
+  return fetch(`${config[process.env.NODE_ENV]}${url}`, options)
     .then(checkStatus)
     .then(parseJSON)
     .then(({ data }) => ({ data }))

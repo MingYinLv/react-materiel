@@ -25,7 +25,7 @@ export default {
       yield put({
         type: 'save',
         payload: {
-          materielList: fromJS(data.data),
+          materielList: fromJS(data.data || []),
         },
       });
     },
