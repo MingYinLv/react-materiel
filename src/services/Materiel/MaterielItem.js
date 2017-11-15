@@ -4,19 +4,22 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import line from 'd3-shape/src/line';
+import min from 'd3-array/src/min';
+import max from 'd3-array/src/max';
+import TWEEN from '@tweenjs/tween.js';
+import scaleLinear from 'd3-scale/src/linear';
+import catmullRom from 'd3-shape/src/curve/catmullRom';
 import IconButton from 'material-ui/IconButton';
 import ActionStore from 'material-ui/svg-icons/action/store';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import classes from './Materiel.less';
 
-const styles = {
-  item: {
-    background: '#fff',
-    animation: 'rowIn 1s',
-    animationFillMode: 'forwards',
-  },
-};
+function animate(time) {
+  window.requestAnimationFrame(animate);
+  TWEEN.update(time);
+}
 
 export default class MaterielItem extends PureComponent {
 
@@ -25,8 +28,48 @@ export default class MaterielItem extends PureComponent {
     i: PropTypes.number.isRequired,
   };
 
+  svgRef = (ref) => {
+    if (ref) {
+      new TWEEN.Tween({ length: 0 })
+        .to({ x: 235, y: 46 }, 800)
+        .easing(TWEEN.Easing.Cubic.InOut)
+        // .onUpdate((offset) => {
+         // win.scrollTop(offset.y);
+        // })
+        .start();
+      animate();
+    }
+  };
+
   render() {
     const { data, i } = this.props;
+    const chartData = data.get('change_log').split(',').reduce((prev, n, j) => {
+      prev.push({
+        x: (20 * j) + 20,
+        y: parseInt(n, 10),
+      });
+      return prev;
+    }, [{
+      x: 0,
+      y: 0,
+    }]);
+
+    const maxY = max(chartData, v => v.y);
+    const xScale = scaleLinear()
+      .domain([min(chartData, v => v.x), max(chartData, v => v.x)])
+      .range([0, 225]);
+
+    const yScale = scaleLinear()
+      .domain([min(chartData, v => v.y), maxY])
+      .range([0, 36]);
+
+    const lineCall = line()
+      .curve(catmullRom.alpha())
+      .x(d => xScale(d.x))
+      .y(d => yScale(maxY - d.y) + 10);
+
+    const lastData = chartData[chartData.length - 1];
+
     return (
       <div className={classes.itemWrap} style={{ animationDelay: `${i * 200}ms` }}>
         <div className={classes.item}>
@@ -34,12 +77,21 @@ export default class MaterielItem extends PureComponent {
             <span className={classes.title}>{data.get('name')}</span>
             <span className={classes.subtitle}>{data.get('description')}</span>
           </div>
-          <svg width="230" height="45" style={{ marginTop: '100px' }}>
+          <svg
+            width="240"
+            height="46"
+            style={{ marginTop: '100px' }}
+            ref={this.svgRef}
+          >
             <path
-              d="M0,46C0,46,20.683453237410074,30.666666666666668,31.43884892086331,29.272727272727273C42.19424460431655,27.87878787878788,53.50119904076739,40.42424242424243,64.53237410071942,37.63636363636364C75.56354916067146,34.84848484848485,86.5947242206235,11.848484848484848,97.62589928057554,12.545454545454545C108.65707434052757,13.242424242424242,119.68824940047963,36.93939393939394,130.71942446043167,41.81818181818182C141.7505995203837,46.6969696969697,152.78177458033574,43.21212121212122,163.81294964028777,41.81818181818182C174.8441247002398,40.42424242424242,185.87529976019187,40.42424242424242,196.9064748201439,33.45454545454545C207.93764988009593,26.484848484848484,230,0,230,0"
-              stroke="#e9e9e9"
-              strokeWidth="2"
-              fill="none"
+              d={lineCall(chartData)}
+              className={classes.path}
+            />
+            <circle
+              className={classes.circle}
+              r="5"
+              cx={xScale(lastData.x) + 5}
+              cy={yScale(maxY - lastData.y) + 8}
             />
           </svg>
           <div className={classes.footer}>

@@ -9,6 +9,10 @@
     address "^1.0.1"
     debug "^2.6.0"
 
+"@tweenjs/tween.js@^17.1.1":
+  version "17.1.1"
+  resolved "http://registry.npm.taobao.org/@tweenjs/tween.js/download/@tweenjs/tween.js-17.1.1.tgz#a735ec3362a8cff7418733853503c2a553ee1a3a"
+
 abbrev@1, abbrev@1.0.x:
   version "1.0.9"
   resolved "http://registry.npm.taobao.org/abbrev/download/abbrev-1.0.9.tgz#91b4792588a7738c25f35dd6f63752a2f8776135"
