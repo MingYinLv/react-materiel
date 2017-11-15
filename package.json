@@ -12,6 +12,7 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "classname": "^0.0.0",
+    "d3": "^4.11.0",
     "dva": "^2.0.4",
     "dva-loading": "^1.0.3",
     "immutable": "^3.8.2",

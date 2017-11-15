@@ -11,6 +11,7 @@
   transform-origin: center top;
   transform: scale3d(1, 1, 1);
   overflow: hidden;
+  background: #eee;
 
 }
 
@@ -19,15 +20,75 @@
   margin: 0 auto;
 }
 
-.listContainer {
-
+.itemList {
+  padding-top: 20px;
+  font-size: 0;
 }
 
-.row {
-  background: #fff;
+.itemWrap {
+  width: 25%;
+  padding: 5px;
+  display: inline-block;
+  vertical-align: text-top;
   animation: rowIn 1s;
   opacity: 0;
   animation-fill-mode: forwards;
+}
+
+.item {
+  background: #fff;
+  position: relative;
+  height: 200px;
+  cursor: pointer;
+  transition: all 600ms;
+  &:hover {
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
+    transform: scale(1, 1, 1.2);
+  }
+  .header, .footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    padding: 15px 20px;
+    z-index: 2;
+  }
+  .header {
+    top: 0;
+  }
+  .footer, .chart {
+    bottom: 0;
+  }
+  .title {
+    text-overflow: ellipsis;
+    height: 16px;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .subtitle {
+    font-size: 14px;
+    display: block;
+    margin-top: 10px;
+    line-height: 22px;
+    height: 44px;
+  }
+  .footer {
+    line-height: 24px;
+    padding: 15px 20px;
+    font-size: 0;
+  }
+  .number {
+    display: inline-block;
+    color: #666;
+    font-size: 16px;
+    margin-left: 5px;
+    vertical-align: middle;
+  }
+  .action {
+    position: absolute;
+    right: 8px;
+    bottom: 3px;
+  }
 }
 
 @keyframes rowIn {

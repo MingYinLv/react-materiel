@@ -73,9 +73,6 @@ class Search extends PureComponent {
           <IconButton onClick={this.back}>
             <NavigationClose
               color="#666"
-              style={{
-                fontSize: '30px',
-              }}
             />
           </IconButton><br />
           [ Esc ]
