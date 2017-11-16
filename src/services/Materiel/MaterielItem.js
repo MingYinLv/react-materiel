@@ -30,12 +30,16 @@ export default class MaterielItem extends PureComponent {
 
   svgRef = (ref) => {
     if (ref) {
-      new TWEEN.Tween({ length: 0 })
-        .to({ x: 235, y: 46 }, 800)
+      const tmpRef = ref;
+      const path = ref.getElementsByTagName('path')[0];
+      const total = path.getTotalLength();
+      tmpRef.style['stroke-dasharray'] = total;
+      new TWEEN.Tween({ length: total })
+        .to({ length: 0 }, 2000)
         .easing(TWEEN.Easing.Cubic.InOut)
-        // .onUpdate((offset) => {
-         // win.scrollTop(offset.y);
-        // })
+        .onUpdate(({ length }) => {
+          tmpRef.style['stroke-dashoffset'] = length;
+        })
         .start();
       animate();
     }
