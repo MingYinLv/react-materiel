@@ -9,6 +9,7 @@ import className from 'classname';
 import key from 'keymaster';
 import classes from './Materiel.less';
 import MaterielList from './MaterielList';
+import MaterielModal from './MaterielModal';
 
 class Materiel extends PureComponent {
 
@@ -42,6 +43,8 @@ class Materiel extends PureComponent {
     });
   }
 
+  editMateriel = id => () => this.props.dispatch({ type: 'materiel/editMateriel', id });
+
   render() {
     const { materielList, location } = this.props;
     return (
@@ -51,8 +54,9 @@ class Materiel extends PureComponent {
         })}
       >
         <div className={classes.box}>
-          <MaterielList materielList={materielList} />
+          <MaterielList materielList={materielList} editMateriel={this.editMateriel} />
         </div>
+        <MaterielModal />
       </div>
     );
   }

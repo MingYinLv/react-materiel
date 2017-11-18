@@ -26,6 +26,7 @@ export default class MaterielItem extends PureComponent {
   static propTypes = {
     data: PropTypes.object.isRequired,
     i: PropTypes.number.isRequired,
+    editMateriel: PropTypes.func.isRequired,
   };
 
   svgRef = (ref) => {
@@ -46,7 +47,7 @@ export default class MaterielItem extends PureComponent {
   };
 
   render() {
-    const { data, i } = this.props;
+    const { data, i, editMateriel } = this.props;
     const chartData = data.get('change_log').split(',').reduce((prev, n, j) => {
       prev.push({
         x: (20 * j) + 20,
@@ -102,7 +103,7 @@ export default class MaterielItem extends PureComponent {
             <ActionStore color="#666" style={{ verticalAlign: 'middle' }} />
             <span className={classes.number}>{data.get('number')}</span>
             <div className={classes.action}>
-              <IconButton><ActionSettings color="#666" /></IconButton>
+              <IconButton onClick={editMateriel(data.get('id'))}><ActionSettings color="#666" /></IconButton>
               <IconButton><ActionDelete color="#666" /></IconButton>
             </div>
           </div>

@@ -6,11 +6,11 @@ import PropTypes from 'prop-types';
 import MaterielItem from './MaterielItem';
 import classes from './Materiel.less';
 
-const MaterielList = ({ materielList }) => (
+const MaterielList = ({ materielList, ...props }) => (
   <div className={classes.itemList}>
     {
       materielList.map((n, i) => (
-        <MaterielItem i={i} key={n.get('id')} data={n} />
+        <MaterielItem i={i} key={n.get('id')} data={n} {...props} />
       ))
     }
   </div>

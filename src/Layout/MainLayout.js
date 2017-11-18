@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { Link, Route } from 'dva/router';
+import { Route } from 'dva/router';
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -26,9 +26,6 @@ export default ({ location }) => {
           }}
           iconElementLeft={<IconButton><ActionHome /></IconButton>}
         />
-        <div className={classes.search}>
-          <Link to="/search"><input /></Link>
-        </div>
         <Route
           component={Materiel}
         />
