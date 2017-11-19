@@ -43,7 +43,7 @@ class Materiel extends PureComponent {
     });
   }
 
-  editMateriel = id => () => this.props.dispatch({ type: 'materiel/editMateriel', id });
+  editMateriel = id => () => this.props.dispatch({ type: 'materiel/showModalByEdit', id });
 
   render() {
     const { materielList, location } = this.props;

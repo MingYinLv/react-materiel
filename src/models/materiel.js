@@ -3,7 +3,7 @@
  */
 
 import { fromJS } from 'immutable';
-import { loadList } from '../services/Materiel/materielService';
+import { loadList, editMateriel } from '../services/Materiel/materielService';
 import { ADD, EDIT } from '../utils/Constant';
 
 export default {
@@ -24,10 +24,10 @@ export default {
     save: (state, action) => {
       return state.merge(action.payload);
     },
-    addMateriel(state) {
+    showModalByAdd(state) {
       return state.setIn(['modal', 'type'], ADD).setIn(['modal', 'visible'], true);
     },
-    editMateriel(state, action) {
+    showModalByEdit(state, action) {
       return state.setIn(['modal', 'type'], EDIT).setIn(['modal', 'visible'], true).setIn(['modal', 'materiel_id'], action.id);
     },
     hideMateriel(state) {
@@ -70,6 +70,9 @@ export default {
           },
         });
       }
+    },
+    *editMateriel(data, { call }) {
+      yield call(editMateriel, data);
     },
   },
 };
