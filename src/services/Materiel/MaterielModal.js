@@ -8,12 +8,21 @@ import { connect } from 'dva';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import TextFiled from 'material-ui/TextField';
-import DatePicker from 'material-ui/DatePicker';
 
 class MaterielModal extends PureComponent {
   static propTypes = {
     modal: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
+  };
+
+  state = {
+    name: '',
+    number: 0,
+    description: '',
+  };
+
+  onChange = (e) => {
+    console.log(e.target.name, e.target.value);
   };
 
   hideModal = () => {
@@ -48,25 +57,23 @@ class MaterielModal extends PureComponent {
         <TextFiled
           hintText="请填写物料名称"
           floatingLabelText="物料名称"
+          onChange={this.onChange}
+          name="name"
           fullWidth
         />
         <TextFiled
           hintText="请填写数量，正整数"
           floatingLabelText="数量"
+          name="number"
+          onChange={this.onChange}
           fullWidth
-        />
-        <DatePicker
-          hintText="请选择日期"
-          style={{
-            marginTop: '24px',
-          }}
-          fullWidth
-          autoOk
         />
         <TextFiled
           hintText="物料描述，可不填"
           floatingLabelText="物料描述"
           multiLine
+          name="description"
+          onChange={this.onChange}
           style={{
             width: '100%',
           }}
