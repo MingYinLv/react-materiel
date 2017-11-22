@@ -1,4 +1,5 @@
 import fetch from 'dva/fetch';
+import qs from 'qs';
 import { show } from '../components/Login';
 import config from './config';
 
@@ -26,7 +27,16 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  return fetch(`${config[process.env.NODE_ENV]}${url}`, options)
+  const opts = {
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    ...options,
+  };
+  if (opts.body) {
+    opts.body = qs.stringify(opts.body);
+  }
+  return fetch(`${config[process.env.NODE_ENV]}${url}`, opts)
     .then(checkStatus)
     .then(parseJSON)
     .then(({ data }) => ({ data }))
