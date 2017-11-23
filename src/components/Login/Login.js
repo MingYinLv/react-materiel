@@ -8,9 +8,11 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import FlatButton from 'material-ui/FlatButton';
+import TextFiled from 'material-ui/TextField';
 import ReactDom from 'react-dom';
-import { connect } from 'dva';
 import Dialog from 'material-ui/Dialog';
+import Spinner from '../Spinner';
+import request from '../../utils/request';
 
 class Login extends PureComponent {
 
@@ -24,18 +26,40 @@ class Login extends PureComponent {
     title: '登录',
   };
 
-  handleClose = () => {
-    const { onRequestClose } = this.props;
-    onRequestClose();
+  state = {
+    username: '',
+    password: '',
+    loading: false,
+  };
+
+  onChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  onSubmit = () => {
+    const { username, password } = this.state;
+    request('/login', {
+      method: 'POST',
+      body: {
+        username,
+        password,
+      },
+    }).then(() => {
+      this.props.onRequestClose();
+    });
   };
 
   render() {
+    const { username, password, loading } = this.state;
+
     const actions = [
       <FlatButton
         label="提交"
         primary
         keyboardFocused
-        // onClick={this.handleClose}
+        onClick={this.onSubmit}
       />,
     ];
 
@@ -44,7 +68,29 @@ class Login extends PureComponent {
         actions={actions}
         {...this.props}
       >
-        登录
+        {
+          loading ? <Spinner /> : (
+            <div>
+              <TextFiled
+                hintText="请填写用户名"
+                floatingLabelText="用户名"
+                onChange={this.onChange}
+                name="username"
+                value={username}
+                fullWidth
+              />
+              <TextFiled
+                hintText="请填写密码"
+                floatingLabelText="密码"
+                onChange={this.onChange}
+                name="password"
+                type="password"
+                value={password}
+                fullWidth
+              />
+            </div>
+          )
+        }
       </Dialog>
     );
   }
@@ -61,15 +107,11 @@ export const show = (props) => {
     }
   }
 
-  const defaultProps = {
-    open: true,
-  };
-
   ReactDom.render(
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <Login {...defaultProps} {...props} onRequestClose={close} />
+      <Login {...props} onRequestClose={close} />
     </MuiThemeProvider>
     , div);
 };
 
-export default connect()(Login);
+export default Login;
