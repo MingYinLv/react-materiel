@@ -11,6 +11,8 @@ import FlatButton from 'material-ui/FlatButton';
 import TextFiled from 'material-ui/TextField';
 import { LogType } from '../../utils/Constant';
 import IntField from '../../components/IntField';
+import DatePicker from '../../components/DatePicker';
+import { showMessage } from '../../components/Notification';
 
 class MaterielModal extends PureComponent {
   static propTypes = {
@@ -25,6 +27,9 @@ class MaterielModal extends PureComponent {
     number: '',
     description: '',
     remark: '',
+    operator: '',
+    operate_time: null,
+    type: `${LogType.CHANGE}`,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -37,27 +42,60 @@ class MaterielModal extends PureComponent {
         name: findData.get('name'),
         number: findData.get('number'),
         description: findData.get('description'),
-        type: '2',
+        type: `${LogType.CHANGE}`,
       });
     }
   }
 
   onSubmit = () => {
     const { dispatch, modal } = this.props;
-    const { name, number, description, remark } = this.state;
+    const { name, number, description, remark, operate_time, operator, type } = this.state;
+    const result = [{
+      name: 'name',
+      title: '物料名称',
+    }, {
+      name: 'number',
+      title: '数量',
+    }, {
+      name: 'operator',
+      title: '操作人',
+    }, {
+      name: 'operator',
+      title: '操作时间',
+    }].every((n) => {
+      if (!this.state[n.name]) {
+        showMessage({
+          message: `请输入${n.title}`,
+        });
+      }
+      return !!this.state[n.name];
+    });
+    if (!result) return;
+    const date = new Date(operate_time);
+    let month = date.getMonth() + 1;
+    month = month < 10 ? `0${month}` : month;
     dispatch({
       type: 'materiel/editMateriel',
+      logType: type,
       id: modal.get('materiel_id'),
       name,
       number,
       description,
       remark,
+      operator,
+      operate_time: `${date.getFullYear()}-${month}-${date.getDate()}`,
     });
   };
 
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
+    });
+  };
+
+  onDateChange = (event, operate_time) => {
+    this.setState({
+      operate_time,
     });
   };
 
@@ -69,7 +107,7 @@ class MaterielModal extends PureComponent {
 
   render() {
     const { modal } = this.props;
-    const { name, number, description, type, remark } = this.state;
+    const { name, number, description, type, remark, operator, operate_time } = this.state;
 
     const actions = [
       <FlatButton
@@ -91,6 +129,9 @@ class MaterielModal extends PureComponent {
         modal
         open={modal.get('visible')}
         onRequestClose={this.hideModal}
+        bodyStyle={{
+          overflow: 'auto',
+        }}
       >
         <RadioButtonGroup
           name="type"
@@ -148,9 +189,25 @@ class MaterielModal extends PureComponent {
           name="description"
           onChange={this.onChange}
           value={description}
-          style={{
-            width: '100%',
-          }}
+          fullWidth
+        />
+        <TextFiled
+          hintText="操作人"
+          floatingLabelText="操作人"
+          multiLine
+          name="operator"
+          onChange={this.onChange}
+          value={operator}
+          fullWidth
+        />
+        <DatePicker
+          hintText="操作时间"
+          floatingLabelText="操作时间"
+          multiLine
+          name="operate_time"
+          onChange={this.onDateChange}
+          value={operate_time}
+          fullWidth
         />
         <TextFiled
           hintText="备注，可不填"
@@ -159,9 +216,7 @@ class MaterielModal extends PureComponent {
           name="remark"
           onChange={this.onChange}
           value={remark}
-          style={{
-            width: '100%',
-          }}
+          fullWidth
         />
       </Dialog>
     );
