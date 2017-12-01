@@ -9,7 +9,9 @@ import classes from './Spinner.less';
 
 const Spinner = ({ size = 80, ...props }) => (
   <div className={classes.container}>
-    <CircularProgress size={size} {...props} />
+    <div className={classes.box}>
+      <CircularProgress size={size} {...props} />
+    </div>
   </div>
 );
 

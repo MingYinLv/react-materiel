@@ -12,7 +12,15 @@ export default {
     materielList: [],
     searchList: [],
     searched: false,
-    keyword: '',
+    list: {
+      page: 1,
+      size: 10,
+    },
+    search: {
+      page: 1,
+      size: 10,
+      keyword: '',
+    },
     modal: {
       visible: false,
       type: '', // add | edit
@@ -49,15 +57,15 @@ export default {
         },
       });
     },
-    *searchList({ page, keyword }, { call, put }) {
-      if (keyword) {
-        const data = yield call(loadList, { page, keyword });
+    *searchList({ search }, { call, put }) {
+      if (search.keyword) {
+        const data = yield call(loadList, search);
         yield put({
           type: 'save',
           payload: {
             searchList: fromJS(data.data || []),
             searched: true,
-            keyword,
+            search,
           },
         });
       } else {
@@ -66,7 +74,7 @@ export default {
           payload: {
             searchList: fromJS([]),
             searched: false,
-            keyword,
+            search,
           },
         });
       }

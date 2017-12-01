@@ -21,7 +21,7 @@ class Search extends PureComponent {
     searchList: PropTypes.object.isRequired,
     searched: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired,
-    keyword: PropTypes.string.isRequired,
+    search: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -29,13 +29,13 @@ class Search extends PureComponent {
     this.search = debounce(this.search, 1000);
     this.state = {
       data: [],
-      search: props.keyword,
+      ...props.search.toJS(), // page size keyword
     };
   }
 
   onChange = (e) => {
     this.setState({
-      search: e.target.value,
+      keyword: e.target.value,
     });
     this.search();
   };
@@ -48,10 +48,12 @@ class Search extends PureComponent {
 
   search = () => {
     const { dispatch } = this.props;
+    const { keyword, page, size } = this.state;
     dispatch({
       type: 'materiel/searchList',
-      page: 1,
-      keyword: this.state.search,
+      search: {
+        keyword, page, size,
+      },
     });
   };
 
@@ -59,9 +61,11 @@ class Search extends PureComponent {
     this.props.history.replace('/');
   };
 
+  editMateriel = id => () => this.props.dispatch({ type: 'materiel/showModalByEdit', id });
+
   render() {
     const { searchLoading, searchList, searched } = this.props;
-    const { search } = this.state;
+    const { keyword } = this.state;
     const isSearch = !!(searchLoading || searched || searchList.size);
     return (
       <div
@@ -82,7 +86,7 @@ class Search extends PureComponent {
             onKeyDown={this.onKeyDown}
             hintText="搜索"
             autoFocus
-            value={search}
+            value={keyword}
             onChange={this.onChange}
             hintStyle={{
               textAlign: 'center',
@@ -98,7 +102,7 @@ class Search extends PureComponent {
               <div className={classes.result}>
                 {searchLoading && <Spinner />}
                 {searched && !searchLoading && (
-                  <MaterielList materielList={searchList} />
+                  <MaterielList editMateriel={this.editMateriel} materielList={searchList} />
                 )}
               </div>
             )
@@ -112,6 +116,6 @@ class Search extends PureComponent {
 export default connect(state => ({
   searchList: state.materiel.get('searchList'),
   searched: state.materiel.get('searched'),
-  keyword: state.materiel.get('keyword'),
+  search: state.materiel.get('search'),
   searchLoading: state.loading.effects['materiel/searchList'],
 }))(Search);

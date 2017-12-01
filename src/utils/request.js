@@ -43,10 +43,10 @@ function checkStatus(response) {
   } else if (response.status === 401) {
     show();
   }
-
-  const error = new Error(response.statusText);
-  error.response = response;
-  throw error;
+  return Promise.reject(response.json());
+  // const error = new Error(response.statusText);
+  // error.response = response;
+  // throw error;
 }
 
 /**
@@ -71,10 +71,12 @@ export default function request(url, { headers, ...options } = {}) {
   return fetch(`${config[process.env.NODE_ENV]}${url}`, opts)
     .then(checkStatus)
     .then(parseJSON)
-    .then((resolveToken))
+    .then(resolveToken)
     .catch((err) => {
-      showMessage({
-        message: err.message || '请求失败，请稍后再是',
+      err.then((data) => {
+        showMessage({
+          message: data.error || '请求失败，请稍后再是',
+        });
       });
       return { err };
     });

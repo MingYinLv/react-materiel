@@ -13,6 +13,8 @@ import { LogType } from '../../utils/Constant';
 import IntField from '../../components/IntField';
 import DatePicker from '../../components/DatePicker';
 import { showMessage } from '../../components/Notification';
+import { editMateriel } from './materielService';
+import Spinner from '../../components/Spinner';
 
 class MaterielModal extends PureComponent {
   static propTypes = {
@@ -29,6 +31,7 @@ class MaterielModal extends PureComponent {
     remark: '',
     operator: '',
     operate_time: null,
+    loading: false,
     type: `${LogType.CHANGE}`,
   };
 
@@ -48,7 +51,7 @@ class MaterielModal extends PureComponent {
   }
 
   onSubmit = () => {
-    const { dispatch, modal } = this.props;
+    const { modal, dispatch } = this.props;
     const { name, number, description, remark, operate_time, operator, type } = this.state;
     const result = [{
       name: 'name',
@@ -74,8 +77,8 @@ class MaterielModal extends PureComponent {
     const date = new Date(operate_time);
     let month = date.getMonth() + 1;
     month = month < 10 ? `0${month}` : month;
-    dispatch({
-      type: 'materiel/editMateriel',
+    this.setLoading(true);
+    editMateriel({
       logType: type,
       id: modal.get('materiel_id'),
       name,
@@ -84,6 +87,13 @@ class MaterielModal extends PureComponent {
       remark,
       operator,
       operate_time: `${date.getFullYear()}-${month}-${date.getDate()}`,
+    }).then(() => {
+      this.setLoading(false);
+      dispatch({
+        type: 'materiel/loadList',
+      });
+    }).catch(() => {
+      this.setLoading(false);
     });
   };
 
@@ -99,6 +109,8 @@ class MaterielModal extends PureComponent {
     });
   };
 
+  setLoading = loading => this.setState({ loading });
+
   hideModal = () => {
     this.props.dispatch({
       type: 'materiel/hideMateriel',
@@ -107,19 +119,21 @@ class MaterielModal extends PureComponent {
 
   render() {
     const { modal } = this.props;
-    const { name, number, description, type, remark, operator, operate_time } = this.state;
+    const { name, number, description, type, remark, operator, operate_time, loading } = this.state;
 
     const actions = [
       <FlatButton
         label="取消"
         primary
         onClick={this.hideModal}
+        disabled={loading}
       />,
       <FlatButton
         label="提交"
         primary
         keyboardFocused
         onClick={this.onSubmit}
+        disabled={loading}
       />,
     ];
     return (
@@ -218,6 +232,7 @@ class MaterielModal extends PureComponent {
           value={remark}
           fullWidth
         />
+        {loading && <Spinner />}
       </Dialog>
     );
   }

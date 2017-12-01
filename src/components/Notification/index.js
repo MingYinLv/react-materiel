@@ -18,16 +18,23 @@ export const showMessage = (props) => {
   const div = document.createElement('div');
   document.body.appendChild(div);
 
+  const newProps = {
+    ...defaultProps,
+    ...props,
+  };
+
   function close() {
     const unmountResult = ReactDom.unmountComponentAtNode(div);
     if (unmountResult && div.parentNode) {
-      div.parentNode.removeChild(div);
+      setTimeout(() => {
+        div.parentNode.removeChild(div);
+      }, newProps.autoHideDuration);
     }
   }
 
   ReactDom.render(
     <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <Snackbar {...defaultProps} {...props} onRequestClose={close} />
+      <Snackbar {...newProps} onRequestClose={close} />
     </MuiThemeProvider>
     , div);
 };
