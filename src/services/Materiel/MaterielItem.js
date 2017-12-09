@@ -14,7 +14,7 @@ import IconButton from 'material-ui/IconButton';
 import ActionStore from 'material-ui/svg-icons/action/store';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import ActionAssignment from 'material-ui/svg-icons/action/assignment';
+// import ActionAssignment from 'material-ui/svg-icons/action/assignment';
 import Confirm from '../../components/Confirm';
 import classes from './Materiel.scss';
 
@@ -109,14 +109,24 @@ export default class MaterielItem extends PureComponent {
             <ActionStore color="#666" style={{ verticalAlign: 'middle' }} />
             <span className={classes.number}>{data.get('number')}</span>
             <div className={classes.action}>
-              <IconButton tooltipPosition="top-center" tooltip="操作日志">
-                <ActionAssignment color="#666" />
-              </IconButton>
-              <IconButton tooltipPosition="top-center" tooltip="编辑" onClick={editMateriel(data.get('id'))}>
+              <IconButton
+                tooltipPosition="top-center"
+                tooltip="编辑"
+                onClick={editMateriel(data.get('id'))}
+                hoveredStyle={{
+                  transform: 'scale(1.2)',
+                }}
+              >
                 <ActionSettings color="#666" />
               </IconButton>
               <Confirm onOk={this.onDelete} text={`确认删除${data.get('name')}吗？`}>
-                <IconButton tooltipPosition="top-center" tooltip="删除">
+                <IconButton
+                  tooltipPosition="top-center"
+                  tooltip="删除"
+                  hoveredStyle={{
+                    transform: 'scale(1.2)',
+                  }}
+                >
                   <ActionDelete color="#666" />
                 </IconButton>
               </Confirm>

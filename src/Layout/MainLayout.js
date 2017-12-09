@@ -14,6 +14,7 @@ import AppBar from 'material-ui/AppBar';
 import classes from './MainLayout.scss';
 import Materiel from '../services/Materiel';
 import Search from '../services/Search';
+import Detail from '../services/Detail';
 
 export default ({ location }) => {
   return (
@@ -30,7 +31,7 @@ export default ({ location }) => {
           component={Materiel}
         />
         <CSSTransitionGroup
-          transitionName="search-show"
+          transitionName="route-show"
           transitionEnterTimeout={500}
           transitionLeaveTimeout={500}
         >
@@ -39,6 +40,19 @@ export default ({ location }) => {
             key={location.key}
             path="/search"
             component={Search}
+          />
+        </CSSTransitionGroup>
+
+        <CSSTransitionGroup
+          transitionName="route-show"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
+          <Route
+            location={location}
+            key={location.key}
+            path="/materiel/:id"
+            component={Detail}
           />
         </CSSTransitionGroup>
       </div>
