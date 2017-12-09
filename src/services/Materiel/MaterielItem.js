@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import line from 'd3-shape/src/line';
 import min from 'd3-array/src/min';
 import max from 'd3-array/src/max';
-import { Link } from 'react-router-dom';
+import { Link } from 'dva/router';
 import TWEEN from '@tweenjs/tween.js';
 import scaleLinear from 'd3-scale/src/linear';
 import catmullRom from 'd3-shape/src/curve/catmullRom';

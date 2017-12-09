@@ -9,7 +9,7 @@ import Dialog from 'material-ui/Dialog';
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import FlatButton from 'material-ui/FlatButton';
 import TextFiled from 'material-ui/TextField';
-import { LogType } from '../../utils/Constant';
+import { LogType, ADD } from '../../utils/Constant';
 import IntField from '../../components/IntField';
 import DatePicker from '../../components/DatePicker';
 import { success, info } from '../../components/Notification';
@@ -37,16 +37,16 @@ class MaterielModal extends PureComponent {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.modal.get('materiel_id') !== 0 &&
-      nextProps.modal.get('materiel_id') !== this.props.modal.get('materiel_id')) {
+    if (!this.props.modal.get('visible') && nextProps.modal.get('visible')) {
       const { searchList, materielList, modal } = nextProps;
       const findData = materielList.find(n => n.get('id') === modal.get('materiel_id')) ||
         searchList.find(n => n.get('id') === modal.get('materiel_id'));
+      const isAdd = nextProps.modal.get('type') === ADD;
       this.setState({
-        name: findData.get('name'),
-        number: findData.get('number'),
-        description: findData.get('description'),
-        type: `${LogType.CHANGE}`,
+        name: isAdd ? '' : findData.get('name'),
+        number: isAdd ? '' : findData.get('number'),
+        description: isAdd ? '' : findData.get('description'),
+        type: `${isAdd ? LogType.INSERT : LogType.CHANGE}`,
         operator: '',
         operate_time: null,
       });
@@ -131,6 +131,7 @@ class MaterielModal extends PureComponent {
   render() {
     const { modal } = this.props;
     const { name, number, description, type, remark, operator, operate_time, loading } = this.state;
+    const isAdd = modal.get('type') === ADD;
     const actions = [
       <FlatButton
         label="取消"
@@ -148,7 +149,7 @@ class MaterielModal extends PureComponent {
     ];
     return (
       <Dialog
-        title="编辑物料信息"
+        title={`${isAdd ? '新增' : '编辑'}物料信息`}
         actions={actions}
         modal
         open={modal.get('visible')}
@@ -157,39 +158,41 @@ class MaterielModal extends PureComponent {
           overflow: 'auto',
         }}
       >
-        <RadioButtonGroup
-          name="type"
-          onChange={this.onChange}
-          valueSelected={type}
-          style={{
-            marginTop: '12px',
-          }}
-        >
-          <RadioButton
-            value={`${LogType.CHANGE}`}
-            label="数量变更"
+        {!isAdd && (
+          <RadioButtonGroup
+            name="type"
+            onChange={this.onChange}
+            valueSelected={type}
             style={{
-              width: '132px',
-              display: 'inline-block',
+              marginTop: '12px',
             }}
-          />
-          <RadioButton
-            value={`${LogType.PUSH}`}
-            label="入库"
-            style={{
-              width: '100px',
-              display: 'inline-block',
-            }}
-          />
-          <RadioButton
-            value={`${LogType.POP}`}
-            label="出库"
-            style={{
-              width: '100px',
-              display: 'inline-block',
-            }}
-          />
-        </RadioButtonGroup>
+          >
+            <RadioButton
+              value={`${LogType.CHANGE}`}
+              label="数量变更"
+              style={{
+                width: '132px',
+                display: 'inline-block',
+              }}
+            />
+            <RadioButton
+              value={`${LogType.PUSH}`}
+              label="入库"
+              style={{
+                width: '100px',
+                display: 'inline-block',
+              }}
+            />
+            <RadioButton
+              value={`${LogType.POP}`}
+              label="出库"
+              style={{
+                width: '100px',
+                display: 'inline-block',
+              }}
+            />
+          </RadioButtonGroup>
+        )}
         <TextFiled
           hintText="请填写物料名称"
           floatingLabelText="物料名称"
@@ -201,7 +204,7 @@ class MaterielModal extends PureComponent {
         />
         <IntField
           hintText="请填写数量，正整数"
-          floatingLabelText="修改填写修改后的数量，出入库填写出入库的数量，会自动计算"
+          floatingLabelText={isAdd ? '数量' : '修改填写修改后的数量，出入库填写出入库的数量，会自动计算'}
           name="number"
           autoComplete="off"
           onChange={this.onChange}

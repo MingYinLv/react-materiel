@@ -5,4 +5,28 @@
   position: relative;
   overflow: auto;
   height: calc(100vh - 64px);
+  text-align: center;
+  .main {
+    width: $min-width;
+    margin: 0 auto;
+  }
+  .title {
+    font-size: 20px;
+    text-align: left;
+    margin-top: 40px;
+  }
+  .lead {
+    text-align: left;
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 22px;
+  }
+  .svg {
+    margin-top: 80px;
+  }
+  .path, .circle {
+    stroke: $color-primary;
+    stroke-width: 2px;
+    fill: none;
+  }
 }
