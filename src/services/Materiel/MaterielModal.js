@@ -12,7 +12,7 @@ import TextFiled from 'material-ui/TextField';
 import { LogType } from '../../utils/Constant';
 import IntField from '../../components/IntField';
 import DatePicker from '../../components/DatePicker';
-import { showMessage } from '../../components/Notification';
+import { success, info } from '../../components/Notification';
 import { editMateriel } from './materielService';
 import Spinner from '../../components/Spinner';
 
@@ -22,6 +22,7 @@ class MaterielModal extends PureComponent {
     dispatch: PropTypes.func.isRequired,
     searchList: PropTypes.object.isRequired,
     materielList: PropTypes.object.isRequired,
+    search: PropTypes.object.isRequired,
   };
 
   state = {
@@ -69,8 +70,8 @@ class MaterielModal extends PureComponent {
       title: '操作时间',
     }].every((n) => {
       if (!this.state[n.name]) {
-        showMessage({
-          message: `请输入${n.title}`,
+        info({
+          text: `请输入${n.title}`,
         });
       }
       return !!this.state[n.name];
@@ -91,8 +92,16 @@ class MaterielModal extends PureComponent {
       operate_time: `${date.getFullYear()}-${month}-${date.getDate()}`,
     }).then(() => {
       this.setLoading(false);
+      this.hideModal();
+      success({
+        text: '操作成功',
+      });
       dispatch({
         type: 'materiel/loadList',
+      });
+      dispatch({
+        type: 'materiel/searchList',
+        search: this.props.search.toJS(),
       });
     }).catch(() => {
       this.setLoading(false);
@@ -122,7 +131,6 @@ class MaterielModal extends PureComponent {
   render() {
     const { modal } = this.props;
     const { name, number, description, type, remark, operator, operate_time, loading } = this.state;
-
     const actions = [
       <FlatButton
         label="取消"
@@ -248,4 +256,5 @@ export default connect(state => ({
   modal: state.materiel.get('modal'),
   materielList: state.materiel.get('materielList'),
   searchList: state.materiel.get('searchList'),
+  search: state.materiel.get('search'),
 }))(MaterielModal);

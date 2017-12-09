@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import className from 'classname';
-import key from 'keymaster';
 import classes from './Materiel.scss';
 import MaterielList from './MaterielList';
 import MaterielModal from './MaterielModal';
@@ -17,29 +16,12 @@ class Materiel extends PureComponent {
     dispatch: PropTypes.func.isRequired,
     materielList: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
     this.props.dispatch({
       type: 'materiel/loadList',
       page: 1,
-    });
-    [{
-      keyboard: 'esc',
-      pathname: '/',
-    }, {
-      keyboard: 's',
-      pathname: '/search',
-    }].forEach(({ keyboard, pathname }) => {
-      key(keyboard, () => {
-        const { history, location } = this.props;
-        if (location.pathname !== pathname) {
-          setTimeout(() => {
-            history.replace(pathname);
-          }, 0);
-        }
-      });
     });
   }
 

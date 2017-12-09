@@ -3,6 +3,7 @@
  */
 
 import { fromJS } from 'immutable';
+import key from 'keymaster';
 import { loadList, editMateriel } from '../services/Materiel/materielService';
 import { ADD, EDIT } from '../utils/Constant';
 
@@ -81,6 +82,25 @@ export default {
     },
     *editMateriel(data, { call }) {
       yield call(editMateriel, data);
+    },
+  },
+  subscriptions: {
+    keyboardWatcher({ history }) {
+      [{
+        keyboard: 'esc',
+        pathname: '/',
+      }, {
+        keyboard: 's',
+        pathname: '/search',
+      }].forEach(({ keyboard, pathname }) => {
+        key(keyboard, () => {
+          if (history.location.pathname !== pathname) {
+            setTimeout(() => {
+              history.replace(pathname);
+            }, 0);
+          }
+        });
+      });
     },
   },
 };

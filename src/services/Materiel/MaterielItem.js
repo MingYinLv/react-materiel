@@ -66,7 +66,7 @@ export default class MaterielItem extends PureComponent {
 
     const yScale = scaleLinear()
       .domain([min(chartData, v => v.y), maxY])
-      .range([0, 36]);
+      .range([0, 41]);
 
     const lineCall = line()
       .curve(catmullRom.alpha())
@@ -96,7 +96,7 @@ export default class MaterielItem extends PureComponent {
               className={classes.circle}
               r="5"
               cx={xScale(lastData.x) + 5}
-              cy={yScale(maxY - lastData.y) + 8}
+              cy={yScale(maxY - lastData.y) + 10}
             />
           </svg>
           <div className={classes.footer}>
