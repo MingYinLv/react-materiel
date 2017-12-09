@@ -9,6 +9,9 @@
   animation: spinnerIn 300ms;
   animation-fill-mode: forwards;
   background: rgba(255, 255, 255, 0.5);
+  &.transparent{
+    background: transparent;
+  }
 }
 
 .box {

@@ -16,7 +16,7 @@ class RouteContainer extends Component {
   };
 
   back = () => {
-    this.props.history.replace('/');
+    this.props.history.push('/');
   };
 
   render() {
@@ -24,6 +24,7 @@ class RouteContainer extends Component {
       <div
         className={classes.container}
       >
+        {this.props.children}
         <div className={classes.closeWrap}>
           <IconButton onClick={this.back}>
             <NavigationClose
@@ -32,7 +33,6 @@ class RouteContainer extends Component {
           </IconButton><br />
           [ Esc ]
         </div>
-        {this.props.children}
       </div>
     );
   }

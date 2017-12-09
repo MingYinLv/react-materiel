@@ -91,7 +91,7 @@ class Search extends PureComponent {
           {
             isSearch && (
               <div className={classes.result}>
-                {searchLoading && <Spinner />}
+                {searchLoading && <Spinner transparent />}
                 {searched && !searchLoading && (
                   <MaterielList editMateriel={this.editMateriel} materielList={searchList} />
                 )}

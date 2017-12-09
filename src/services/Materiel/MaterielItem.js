@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import line from 'd3-shape/src/line';
 import min from 'd3-array/src/min';
 import max from 'd3-array/src/max';
+import { Link } from 'react-router-dom';
 import TWEEN from '@tweenjs/tween.js';
 import scaleLinear from 'd3-scale/src/linear';
 import catmullRom from 'd3-shape/src/curve/catmullRom';
@@ -88,23 +89,25 @@ export default class MaterielItem extends PureComponent {
             <span className={classes.title}>{data.get('name')}</span>
             <span className={classes.subtitle}>{data.get('description')}</span>
           </div>
-          <svg
-            width="240"
-            height="46"
-            style={{ marginTop: '100px' }}
-            ref={this.svgRef}
-          >
-            <path
-              d={lineCall(chartData)}
-              className={classes.path}
-            />
-            <circle
-              className={classes.circle}
-              r="5"
-              cx={xScale(lastData.x) + 5}
-              cy={yScale(maxY - lastData.y) + 10}
-            />
-          </svg>
+          <Link to={`/materiel/${data.get('id')}`}>
+            <svg
+              width="240"
+              height="46"
+              style={{ marginTop: '100px', cursor: 'pointer' }}
+              ref={this.svgRef}
+            >
+              <path
+                d={lineCall(chartData)}
+                className={classes.path}
+              />
+              <circle
+                className={classes.circle}
+                r="5"
+                cx={xScale(lastData.x) + 5}
+                cy={yScale(maxY - lastData.y) + 10}
+              />
+            </svg>
+          </Link>
           <div className={classes.footer}>
             <ActionStore color="#666" style={{ verticalAlign: 'middle' }} />
             <span className={classes.number}>{data.get('number')}</span>
