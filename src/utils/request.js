@@ -75,9 +75,9 @@ export default function request(url, { headers, ...options } = {}) {
     .catch((err) => {
       err.then((data) => {
         warning({
-          text: data.error || '请求失败，请稍后再是',
+          text: data.error || '请求失败，请稍后再试',
         });
       });
-      return { err };
+      throw err;
     });
 }

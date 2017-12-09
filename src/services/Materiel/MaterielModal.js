@@ -46,6 +46,8 @@ class MaterielModal extends PureComponent {
         number: findData.get('number'),
         description: findData.get('description'),
         type: `${LogType.CHANGE}`,
+        operator: '',
+        operate_time: null,
       });
     }
   }
@@ -185,6 +187,7 @@ class MaterielModal extends PureComponent {
           floatingLabelText="物料名称"
           onChange={this.onChange}
           name="name"
+          autoComplete="off"
           value={name}
           fullWidth
         />
@@ -192,6 +195,7 @@ class MaterielModal extends PureComponent {
           hintText="请填写数量，正整数"
           floatingLabelText="修改填写修改后的数量，出入库填写出入库的数量，会自动计算"
           name="number"
+          autoComplete="off"
           onChange={this.onChange}
           value={number}
           fullWidth
@@ -200,6 +204,7 @@ class MaterielModal extends PureComponent {
           hintText="物料描述，可不填"
           floatingLabelText="物料描述"
           multiLine
+          autoComplete="off"
           name="description"
           onChange={this.onChange}
           value={description}
@@ -209,6 +214,7 @@ class MaterielModal extends PureComponent {
           hintText="操作人"
           floatingLabelText="操作人"
           multiLine
+          autoComplete="off"
           name="operator"
           onChange={this.onChange}
           value={operator}

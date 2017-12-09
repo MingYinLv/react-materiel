@@ -13,6 +13,7 @@ import ReactDom from 'react-dom';
 import Dialog from 'material-ui/Dialog';
 import Spinner from '../Spinner';
 import request from '../../utils/request';
+import { success } from '../../components/Notification';
 
 class Login extends PureComponent {
 
@@ -40,6 +41,9 @@ class Login extends PureComponent {
 
   onSubmit = () => {
     const { username, password } = this.state;
+    this.setState({
+      loading: true,
+    });
     request('/login', {
       method: 'POST',
       body: {
@@ -47,7 +51,14 @@ class Login extends PureComponent {
         password,
       },
     }).then(() => {
+      success({
+        text: '登录成功',
+      });
       this.props.onRequestClose();
+    }).catch(() => {
+      this.setState({
+        loading: false,
+      });
     });
   };
 
@@ -56,8 +67,15 @@ class Login extends PureComponent {
 
     const actions = [
       <FlatButton
+        label="取消"
+        primary
+        disabled={loading}
+        onClick={this.props.onRequestClose}
+      />,
+      <FlatButton
         label="提交"
         primary
+        disabled={loading}
         keyboardFocused
         onClick={this.onSubmit}
       />,
@@ -68,28 +86,27 @@ class Login extends PureComponent {
         actions={actions}
         {...this.props}
       >
+        <TextFiled
+          hintText="请填写用户名"
+          floatingLabelText="用户名"
+          onChange={this.onChange}
+          name="username"
+          autoComplete="off"
+          value={username}
+          fullWidth
+        />
+        <TextFiled
+          hintText="请填写密码"
+          floatingLabelText="密码"
+          autoComplete="off"
+          onChange={this.onChange}
+          name="password"
+          type="password"
+          value={password}
+          fullWidth
+        />
         {
-          loading ? <Spinner /> : (
-            <div>
-              <TextFiled
-                hintText="请填写用户名"
-                floatingLabelText="用户名"
-                onChange={this.onChange}
-                name="username"
-                value={username}
-                fullWidth
-              />
-              <TextFiled
-                hintText="请填写密码"
-                floatingLabelText="密码"
-                onChange={this.onChange}
-                name="password"
-                type="password"
-                value={password}
-                fullWidth
-              />
-            </div>
-          )
+          loading && <Spinner />
         }
       </Dialog>
     );
