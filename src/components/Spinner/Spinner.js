@@ -4,7 +4,7 @@
 
 import React from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
-import classes from './Spinner.less';
+import classes from './Spinner.scss';
 
 
 const Spinner = ({ size = 80, ...props }) => (

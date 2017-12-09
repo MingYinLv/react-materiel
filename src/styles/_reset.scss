@@ -1,4 +1,4 @@
-@import "./_variable";
+@import "./variable";
 
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -23,7 +23,7 @@ time, mark, audio, video {
 
 body {
   line-height: 1;
-  color: @color-dark;
+  color: $color-dark;
 }
 
 article, aside, canvas, details, figcaption, figure,

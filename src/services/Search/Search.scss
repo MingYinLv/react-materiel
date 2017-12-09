@@ -1,4 +1,4 @@
-@import "../../styles/_variable";
+@import "../../styles/variable";
 
 .container {
   position: absolute;
@@ -32,7 +32,7 @@
 
 .main {
   text-align: center;
-  top: calc(~"30vh - 64px");
+  top: calc(30vh - 64px);
   position: absolute;
   width: 100%;
   transition: top 500ms cubic-bezier(0.83, 0.02, 0.15, 0.99);
@@ -44,7 +44,7 @@
   right: 20px;
   font-size: 14px;
   text-align: center;
-  color: @color-grey;
+  color: $color-grey;
 }
 
 .container.search {
@@ -54,7 +54,7 @@
   .result {
     width: 960px;
     margin: 20px auto;
-    height: calc(~"100vh - 368px");
+    height: calc(100vh - 368px);
     position: relative;
   }
 }

@@ -190,7 +190,7 @@ class MaterielModal extends PureComponent {
         />
         <IntField
           hintText="请填写数量，正整数"
-          floatingLabelText="数量"
+          floatingLabelText="修改填写修改后的数量，出入库填写出入库的数量，会自动计算"
           name="number"
           onChange={this.onChange}
           value={number}

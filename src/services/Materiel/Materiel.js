@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'dva';
 import className from 'classname';
 import key from 'keymaster';
-import classes from './Materiel.less';
+import classes from './Materiel.scss';
 import MaterielList from './MaterielList';
 import MaterielModal from './MaterielModal';
 

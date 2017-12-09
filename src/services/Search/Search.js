@@ -10,7 +10,7 @@ import debounce from 'lodash/debounce';
 import className from 'classname';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
-import classes from './Search.less';
+import classes from './Search.scss';
 import Spinner from '../../components/Spinner';
 import MaterielList from '../Materiel/MaterielList';
 

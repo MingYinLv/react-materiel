@@ -14,7 +14,7 @@ import IconButton from 'material-ui/IconButton';
 import ActionStore from 'material-ui/svg-icons/action/store';
 import ActionSettings from 'material-ui/svg-icons/action/settings';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import classes from './Materiel.less';
+import classes from './Materiel.scss';
 
 function animate(time) {
   window.requestAnimationFrame(animate);

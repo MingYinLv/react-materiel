@@ -11,7 +11,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import IconButton from 'material-ui/IconButton';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import AppBar from 'material-ui/AppBar';
-import classes from './MainLayout.less';
+import classes from './MainLayout.scss';
 import Materiel from '../services/Materiel';
 import Search from '../services/Search';
 

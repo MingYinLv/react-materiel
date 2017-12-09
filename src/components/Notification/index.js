@@ -2,39 +2,33 @@
  * Created by MingYin Lv on 2017/11/23 下午4:23.
  */
 
-import React from 'react';
-import Snackbar from 'material-ui/Snackbar';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import ReactDom from 'react-dom';
+import { alert } from 'notie';
+import './Notification.scss';
 
-const defaultProps = {
-  open: true,
-  autoHideDuration: 3000,
-};
+const SUCCESS = 1;
+const WARNING = 2;
+const INFO = 4;
 
-export const showMessage = (props) => {
-  const div = document.createElement('div');
-  document.body.appendChild(div);
+export function success(options) {
+  alert({
+    ...options,
+    position: 'bottom',
+    type: SUCCESS,
+  });
+}
 
-  const newProps = {
-    ...defaultProps,
-    ...props,
-  };
+export function warning(options) {
+  alert({
+    ...options,
+    position: 'bottom',
+    type: WARNING,
+  });
+}
 
-  function close() {
-    const unmountResult = ReactDom.unmountComponentAtNode(div);
-    if (unmountResult && div.parentNode) {
-      setTimeout(() => {
-        div.parentNode.removeChild(div);
-      }, newProps.autoHideDuration);
-    }
-  }
-
-  ReactDom.render(
-    <MuiThemeProvider muiTheme={getMuiTheme(lightBaseTheme)}>
-      <Snackbar {...newProps} onRequestClose={close} />
-    </MuiThemeProvider>
-    , div);
-};
+export function info(options) {
+  alert({
+    ...options,
+    position: 'bottom',
+    type: INFO,
+  });
+}

@@ -4,7 +4,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MaterielItem from './MaterielItem';
-import classes from './Materiel.less';
+import classes from './Materiel.scss';
 
 const MaterielList = ({ materielList, ...props }) => (
   <div className={classes.itemList}>

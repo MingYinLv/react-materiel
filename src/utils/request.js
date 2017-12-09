@@ -2,7 +2,7 @@ import fetch from 'dva/fetch';
 import qs from 'qs';
 import { show } from '../components/Login';
 import config from './config';
-import { showMessage } from '../components/Notification';
+import { warning } from '../components/Notification';
 
 let accessToken = '';
 
@@ -74,8 +74,8 @@ export default function request(url, { headers, ...options } = {}) {
     .then(resolveToken)
     .catch((err) => {
       err.then((data) => {
-        showMessage({
-          message: data.error || '请求失败，请稍后再是',
+        warning({
+          text: data.error || '请求失败，请稍后再是',
         });
       });
       return { err };
