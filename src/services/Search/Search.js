@@ -8,11 +8,10 @@ import { connect } from 'dva';
 import TextField from 'material-ui/TextField';
 import debounce from 'lodash/debounce';
 import className from 'classname';
-import IconButton from 'material-ui/IconButton';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import classes from './Search.scss';
 import Spinner from '../../components/Spinner';
 import MaterielList from '../Materiel/MaterielList';
+import RouteContainer from '../../components/RouteContainer';
 
 class Search extends PureComponent {
   static propTypes = {
@@ -64,24 +63,16 @@ class Search extends PureComponent {
   editMateriel = id => () => this.props.dispatch({ type: 'materiel/showModalByEdit', id });
 
   render() {
-    const { searchLoading, searchList, searched } = this.props;
+    const { searchLoading, searchList, searched, history } = this.props;
     const { keyword } = this.state;
     const isSearch = !!(searchLoading || searched || searchList.size);
     return (
-      <div
-        className={className(classes.container, {
-          [classes.search]: isSearch,
-        })}
-      >
-        <div className={classes.closeWrap}>
-          <IconButton onClick={this.back}>
-            <NavigationClose
-              color="#666"
-            />
-          </IconButton><br />
-          [ Esc ]
-        </div>
-        <div className={classes.main}>
+      <RouteContainer history={history}>
+        <div
+          className={className(classes.main, {
+            [classes.search]: isSearch,
+          })}
+        >
           <TextField
             onKeyDown={this.onKeyDown}
             hintText="搜索"
@@ -108,7 +99,7 @@ class Search extends PureComponent {
             )
           }
         </div>
-      </div>
+      </RouteContainer>
     );
   }
 }
