@@ -25,6 +25,13 @@ class Materiel extends PureComponent {
     });
   }
 
+  delMateriel = (id) => {
+    this.props.dispatch({
+      type: 'materiel/delMateriel',
+      id,
+    });
+  };
+
   editMateriel = id => () => this.props.dispatch({ type: 'materiel/showModalByEdit', id });
 
   render() {
@@ -36,7 +43,11 @@ class Materiel extends PureComponent {
         })}
       >
         <div className={classes.box}>
-          <MaterielList materielList={materielList} editMateriel={this.editMateriel} />
+          <MaterielList
+            onDel={this.delMateriel}
+            materielList={materielList}
+            editMateriel={this.editMateriel}
+          />
         </div>
         <MaterielModal />
       </div>

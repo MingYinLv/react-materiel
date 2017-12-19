@@ -25,3 +25,16 @@ export const editMateriel = ({
     },
   });
 };
+
+export const addMateriel = ({ name, number, description, remark, operator, operate_time }) => {
+  return request('/materiels', {
+    method: 'POST',
+    body: {
+      name, number, description, remark, operator, operate_time,
+    },
+  });
+};
+
+export const delMateriel = id => request(`/materiels/${id}`, {
+  method: 'DELETE',
+});

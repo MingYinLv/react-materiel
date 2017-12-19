@@ -4,8 +4,9 @@
 
 import { fromJS } from 'immutable';
 import key from 'keymaster';
-import { loadList, editMateriel } from '../services/Materiel/materielService';
+import { loadList, delMateriel } from '../services/Materiel/materielService';
 import { ADD, EDIT } from '../utils/Constant';
+import { success } from '../components/Notification';
 
 export default {
   namespace: 'materiel',
@@ -47,6 +48,11 @@ export default {
         log_type: 1,
       }));
     },
+    // delMaterielSuffix(state, action){
+    //   const list = state.get('materielList');
+    //
+    //     return state;
+    // },
   },
   effects: {
     *loadList({ page }, { call, put }) {
@@ -80,8 +86,15 @@ export default {
         });
       }
     },
-    *editMateriel(data, { call }) {
-      yield call(editMateriel, data);
+    *delMateriel({ id }, { call, put }) {
+      yield call(delMateriel(id));
+      success({
+        text: '删除成功',
+      });
+      put({
+        type: 'delMaterielSuffix',
+        id,
+      });
     },
   },
   subscriptions: {

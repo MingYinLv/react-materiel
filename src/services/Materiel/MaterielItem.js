@@ -30,10 +30,11 @@ export default class MaterielItem extends PureComponent {
     data: PropTypes.object.isRequired,
     i: PropTypes.number.isRequired,
     editMateriel: PropTypes.func.isRequired,
+    onDel: PropTypes.func.isRequired,
   };
 
   onDelete = () => {
-    console.log('删除');
+    this.props.onDel(this.props.data.get('id'));
   };
 
   svgRef = (ref) => {

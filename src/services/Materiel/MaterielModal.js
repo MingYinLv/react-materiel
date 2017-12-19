@@ -13,7 +13,7 @@ import { LogType, ADD } from '../../utils/Constant';
 import IntField from '../../components/IntField';
 import DatePicker from '../../components/DatePicker';
 import { success, info } from '../../components/Notification';
-import { editMateriel } from './materielService';
+import { editMateriel, addMateriel } from './materielService';
 import Spinner from '../../components/Spinner';
 
 class MaterielModal extends PureComponent {
@@ -34,6 +34,7 @@ class MaterielModal extends PureComponent {
     operate_time: null,
     loading: false,
     type: `${LogType.CHANGE}`,
+    isAdd: false,
   };
 
   componentWillReceiveProps(nextProps) {
@@ -47,15 +48,17 @@ class MaterielModal extends PureComponent {
         number: isAdd ? '' : findData.get('number'),
         description: isAdd ? '' : findData.get('description'),
         type: `${isAdd ? LogType.INSERT : LogType.CHANGE}`,
+        isAdd,
         operator: '',
         operate_time: null,
+        remark: '',
       });
     }
   }
 
   onSubmit = () => {
     const { modal, dispatch } = this.props;
-    const { name, number, description, remark, operate_time, operator, type } = this.state;
+    const { name, number, description, remark, operate_time, operator, type, isAdd } = this.state;
     const result = [{
       name: 'name',
       title: '物料名称',
@@ -81,31 +84,57 @@ class MaterielModal extends PureComponent {
     let month = date.getMonth() + 1;
     month = month < 10 ? `0${month}` : month;
     this.setLoading(true);
-    editMateriel({
-      logType: type,
-      id: modal.get('materiel_id'),
-      name,
-      number,
-      description,
-      remark,
-      operator,
-      operate_time: `${date.getFullYear()}-${month}-${date.getDate()}`,
-    }).then(() => {
-      this.setLoading(false);
-      this.hideModal();
-      success({
-        text: '操作成功',
+    if (isAdd) {
+      addMateriel({
+        name,
+        number,
+        description,
+        remark,
+        operator,
+        operate_time: `${date.getFullYear()}-${month}-${date.getDate()}`,
+      }).then(() => {
+        this.setLoading(false);
+        this.hideModal();
+        success({
+          text: '添加成功',
+        });
+        dispatch({
+          type: 'materiel/loadList',
+        });
+        dispatch({
+          type: 'materiel/searchList',
+          search: this.props.search.toJS(),
+        });
+      }).catch(() => {
+        this.setLoading(false);
       });
-      dispatch({
-        type: 'materiel/loadList',
+    } else {
+      editMateriel({
+        logType: type,
+        id: modal.get('materiel_id'),
+        name,
+        number,
+        description,
+        remark,
+        operator,
+        operate_time: `${date.getFullYear()}-${month}-${date.getDate()}`,
+      }).then(() => {
+        this.setLoading(false);
+        this.hideModal();
+        success({
+          text: '操作成功',
+        });
+        dispatch({
+          type: 'materiel/loadList',
+        });
+        dispatch({
+          type: 'materiel/searchList',
+          search: this.props.search.toJS(),
+        });
+      }).catch(() => {
+        this.setLoading(false);
       });
-      dispatch({
-        type: 'materiel/searchList',
-        search: this.props.search.toJS(),
-      });
-    }).catch(() => {
-      this.setLoading(false);
-    });
+    }
   };
 
   onChange = (e) => {
