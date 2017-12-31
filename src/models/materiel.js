@@ -48,14 +48,15 @@ export default {
         log_type: 1,
       }));
     },
-    // delMaterielSuffix(state, action){
-    //   const list = state.get('materielList');
-    //
-    //     return state;
-    // },
+    delMaterielSuffix(state, { payload }) {
+      const materielList = state.get('materielList');
+      const searchList = state.get('searchList');
+      return state.set('materielList', materielList.filter(n => n.get('id') !== payload.id))
+        .set('searchList', searchList.filter(n => n.get('id') !== payload.id));
+    },
   },
   effects: {
-    *loadList({ page }, { call, put }) {
+    * loadList({ page }, { call, put }) {
       const data = yield call(loadList, { page });
       yield put({
         type: 'save',
@@ -64,7 +65,7 @@ export default {
         },
       });
     },
-    *searchList({ search }, { call, put }) {
+    * searchList({ search }, { call, put }) {
       if (search.keyword) {
         const data = yield call(loadList, search);
         yield put({
@@ -86,15 +87,21 @@ export default {
         });
       }
     },
-    *delMateriel({ id }, { call, put }) {
-      yield call(delMateriel(id));
-      success({
-        text: '删除成功',
-      });
-      put({
-        type: 'delMaterielSuffix',
-        id,
-      });
+    * delMateriel({ id }, { call, put }) {
+      try {
+        yield call(delMateriel, id);
+        success({
+          text: '删除成功',
+        });
+        yield put({
+          type: 'delMaterielSuffix',
+          payload: {
+            id,
+          },
+        });
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
   subscriptions: {

@@ -43,10 +43,9 @@ function checkStatus(response) {
   } else if (response.status === 401) {
     show();
   }
-  return Promise.reject(response.json());
-  // const error = new Error(response.statusText);
-  // error.response = response;
-  // throw error;
+  const error = new Error(response.statusText);
+  error.response = response;
+  throw error;
 }
 
 /**
@@ -73,7 +72,7 @@ export default function request(url, { headers, ...options } = {}) {
     .then(parseJSON)
     .then(resolveToken)
     .catch((err) => {
-      err.then((data) => {
+      err.response.json().then((data) => {
         warning({
           text: data.error || '请求失败，请稍后再试',
         });
