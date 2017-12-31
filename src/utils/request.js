@@ -4,26 +4,27 @@ import { show } from '../components/Login';
 import config from './config';
 import { warning } from '../components/Notification';
 
-let accessToken = '';
+let accessToken = window.localStorage.getItem('accessToken') || '';
 
 export function getToken() {
   return accessToken;
 }
 
-function refreshToken(refresh_token) {
-  request('/user/refresh_token', {
-    method: 'POST',
-    body: {
-      refresh_token,
-    },
-  });
-}
+// function refreshToken(refresh_token) {
+//   request('/user/refresh_token', {
+//     method: 'POST',
+//     body: {
+//       refresh_token,
+//     },
+//   });
+// }
 
 function registerToken(data) {
   accessToken = data.access_token;
-  setTimeout(() => {
-    refreshToken(data.refresh_token);
-  }, (data.expires_in - 10) * 1000);
+  window.localStorage.setItem('accessToken', accessToken);
+  // setTimeout(() => {
+  //   refreshToken(data.refresh_token);
+  // }, (data.expires_in - 10) * 1000);
 }
 
 function resolveToken({ data }) {
